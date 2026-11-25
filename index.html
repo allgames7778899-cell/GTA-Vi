@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <title>TikTok Creator Gift & Reward Portal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Cinzel/Playfair for authentic GTA serif feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti for Celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serifGta: ['Cinzel', 'Georgia', 'serif'],
+                    },
+                    colors: {
+                        tiktok: {
+                            black: '#010101',
+                            dark: '#121212',
+                            card: '#1E1E1E',
+                            border: '#2F2F2F',
+                            pink: '#FE2C55',
+                            cyan: '#25F4EE',
+                        }
+                    },
+                    animation: {
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        glow: {
+                            '0%': { boxShadow: '0 0 10px rgba(37, 244, 238, 0.3), 0 0 20px rgba(254, 44, 85, 0.3)' },
+                            '100%': { boxShadow: '0 0 20px rgba(37, 244, 238, 0.6), 0 0 30px rgba(254, 44, 85, 0.6)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #010101;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        .tiktok-gradient-text {
+            background: linear-gradient(90deg, #25F4EE 0%, #FFFFFF 50%, #FE2C55 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tiktok-btn-gradient {
+            background: linear-gradient(90deg, #FE2C55 0%, #E02046 100%);
+            box-shadow: -3px 0px 0px #25F4EE, 3px 0px 0px #FE2C55;
+            transition: all 0.2s ease;
+        }
+        .tiktok-btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: -4px 2px 12px rgba(37, 244, 238, 0.5), 4px 2px 12px rgba(254, 44, 85, 0.5);
+        }
+        .tiktok-btn-gradient:active {
+            transform: translateY(0px);
+        }
+        .gift-card.selected {
+            border-color: #25F4EE;
+            background: linear-gradient(145deg, rgba(37, 244, 238, 0.1) 0%, rgba(254, 44, 85, 0.1) 100%);
+            box-shadow: 0 0 20px rgba(37, 244, 238, 0.25);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121212;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2F2F2F;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FE2C55;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-tiktok-pink selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-tiktok-dark/90 backdrop-blur-md border-b border-tiktok-border">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <!-- TikTok Style Logo -->
+                <div class="w-10 h-10 rounded-xl bg-black border border-tiktok-border flex items-center justify-center relative overflow-hidden">
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none">
+                        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" fill="#25F4EE" transform="translate(-1, -1)"/>
+                        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" fill="#FE2C55" transform="translate(1, 1)"/>
+                        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" fill="#FFFFFF"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-lg sm:text-xl tracking-tight">TikTok <span class="tiktok-gradient-text">Creator Gift & Reward Portal</span></h1>
+                    <p class="text-xs text-gray-400">Official Creator Rewards & Hardware Dispatcher</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2 bg-tiktok-card px-3 py-1.5 rounded-full border border-tiktok-border">
+                <span class="w-2 h-2 rounded-full bg-tiktok-cyan animate-ping"></span>
+                <span class="text-xs font-medium text-gray-300">Rewards Server Online</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-5xl w-full mx-auto px-4 py-8 flex-grow space-y-8">
+
+        <!-- Custom Toast Notification Box (Replaces alert) -->
+        <div id="toast-box" class="fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+            <div class="bg-tiktok-card border-l-4 border-tiktok-pink text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-center space-x-3">
+                <span id="toast-icon" class="text-xl">⚠️</span>
+                <p id="toast-message" class="text-sm font-medium"></p>
+            </div>
+        </div>
+
+        <!-- Step 1: Search TikTok User -->
+        <section class="bg-tiktok-dark border border-tiktok-border rounded-2xl p-5 sm:p-7 shadow-xl">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                <h2 class="text-lg font-bold flex items-center gap-2">
+                    <span class="bg-tiktok-pink text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-xs font-extrabold">1</span>
+                    Search TikTok @username
+                </h2>
+                <div class="flex flex-wrap gap-1.5 text-xs">
+                    <button type="button" onclick="quickFillUser('khaby.lame')" class="px-2.5 py-1 rounded-lg bg-tiktok-card hover:bg-tiktok-border text-gray-300 transition">@khaby.lame</button>
+                    <button type="button" onclick="quickFillUser('charlidamelio')" class="px-2.5 py-1 rounded-lg bg-tiktok-card hover:bg-tiktok-border text-gray-300 transition">@charlidamelio</button>
+                    <button type="button" onclick="quickFillUser('mrbeast')" class="px-2.5 py-1 rounded-lg bg-tiktok-card hover:bg-tiktok-border text-gray-300 transition">@mrbeast</button>
+                    <button type="button" onclick="quickFillUser('zachking')" class="px-2.5 py-1 rounded-lg bg-tiktok-card hover:bg-tiktok-border text-gray-300 transition">@zachking</button>
+                    <button type="button" onclick="quickFillUser('bellapoarch')" class="px-2.5 py-1 rounded-lg bg-tiktok-card hover:bg-tiktok-border text-gray-300 transition">@bellapoarch</button>
+                </div>
+            </div>
+
+            <form id="search-form" class="flex flex-col sm:flex-row gap-3">
+                <div class="relative flex-grow">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-tiktok-cyan font-bold text-lg">@</span>
+                    <input type="text" id="username-input" placeholder="Search TikTok @username (e.g., khaby.lame, zachking)..." 
+                           class="w-full bg-tiktok-card border border-tiktok-border focus:border-tiktok-cyan focus:ring-1 focus:ring-tiktok-cyan rounded-xl pl-10 pr-4 py-3.5 text-white placeholder-gray-500 outline-none transition">
+                </div>
+                <button type="submit" class="tiktok-btn-gradient text-white font-bold px-7 py-3.5 rounded-xl flex items-center justify-center gap-2 shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <span>Find Creator</span>
+                </button>
+            </form>
+
+            <!-- User Profile Result Card (Hidden initially until search) -->
+            <div id="user-profile-card" class="hidden mt-6 bg-tiktok-card/80 border border-tiktok-border rounded-2xl p-4 sm:p-5 transition-all duration-300">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-4 text-center sm:text-left flex-col sm:flex-row">
+                        <div class="relative">
+                            <img id="profile-avatar" src="" alt="Avatar" referrerpolicy="no-referrer" class="w-20 h-20 rounded-full object-cover border-2 border-tiktok-cyan p-0.5 bg-black">
+                            <span class="absolute bottom-0 right-0 bg-tiktok-pink text-white text-[10px] font-bold px-2 py-0.5 rounded-full border border-black">LIVE</span>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-center sm:justify-start gap-1.5">
+                                <h3 id="profile-display-name" class="text-xl font-extrabold text-white">User Name</h3>
+                                <!-- Verified Badge -->
+                                <span id="verified-badge" class="text-tiktok-cyan" title="Verified Creator">
+                                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.9 14.7L6 12.6l1.5-1.5 2.6 2.6 6.4-6.4 1.5 1.5-7.9 7.9z"/></svg>
+                                </span>
+                            </div>
+                            <p id="profile-handle" class="text-sm text-gray-400 font-medium">@username</p>
+                            <div class="flex items-center justify-center sm:justify-start gap-4 mt-2 text-xs text-gray-300">
+                                <span><strong id="profile-followers" class="text-white">1.2M</strong> Followers</span>
+                                <span><strong id="profile-likes" class="text-white">24.8M</strong> Likes</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Verified Toggle & Status -->
+                    <div class="flex flex-col items-center sm:items-end gap-2">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Eligible for VIP Rewards
+                        </span>
+                        <label class="inline-flex items-center cursor-pointer text-xs text-gray-400 gap-2 mt-1">
+                            <input type="checkbox" id="toggle-verified" checked class="sr-only peer" onchange="toggleVerifiedBadge()">
+                            <div class="w-9 h-5 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-tiktok-cyan relative"></div>
+                            <span>Verified Creator Badge</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 2: Select Reward (GTA VI / PS5 / Bundle) -->
+        <section class="bg-tiktok-dark border border-tiktok-border rounded-2xl p-5 sm:p-7 shadow-xl">
+            <div class="flex items-center justify-between mb-5">
+                <h2 class="text-lg font-bold flex items-center gap-2">
+                    <span class="bg-tiktok-cyan text-black w-6 h-6 rounded-full inline-flex items-center justify-center text-xs font-extrabold">2</span>
+                    Select Reward
+                </h2>
+                <span class="text-xs text-tiktok-cyan font-semibold bg-tiktok-cyan/10 px-3 py-1 rounded-full">0 Coins Required • VIP Creator Grant</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                
+                <!-- Option 1: Authentic GTA VI Vice City Logo Card -->
+                <div onclick="selectGift('gta6')" id="card-gta6" class="gift-card cursor-pointer bg-tiktok-card border-2 border-tiktok-border hover:border-gray-500 rounded-2xl p-5 flex flex-col justify-between transition-all duration-200 relative overflow-hidden group">
+                    <div class="absolute top-3 right-3 z-20 bg-gradient-to-r from-orange-500 via-pink-600 to-purple-700 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md">
+                        Official Release
+                    </div>
+                    <div>
+                        <!-- Authentic GTA VI Box Art Collage & Stacked Lowercase Logo -->
+                        <div class="h-44 rounded-xl mb-4 relative overflow-hidden border border-pink-500/40 shadow-inner bg-[#0B0418]">
+                            <!-- Upload / Custom Cover Trigger -->
+                            <label for="gta6-cover-upload" onclick="event.stopPropagation()" title="Upload your own cover image" class="absolute bottom-2 right-2 z-30 cursor-pointer bg-black/75 hover:bg-black text-white/90 hover:text-tiktok-cyan border border-white/20 text-[10px] font-semibold px-2 py-1 rounded-lg backdrop-blur-sm transition flex items-center gap-1">
+                                <span>🖼️</span> Custom Art
+                            </label>
+                            <input type="file" id="gta6-cover-upload" accept="image/*" class="hidden" onchange="handleCustomGtaCover(event)">
+
+                            <!-- Custom Uploaded Image Layer (Hidden until user selects file) -->
+                            <img id="gta6-custom-img" src="" alt="GTA VI Cover Art" class="hidden w-full h-full object-cover relative z-20">
+
+                            <!-- Detailed Official Style GTA VI Collage Artwork SVG -->
+                            <svg id="gta6-default-art" class="w-full h-full object-cover" viewBox="0 0 360 190" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="viBoxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#3B82F6"/>
+                                        <stop offset="35%" stop-color="#A855F7"/>
+                                        <stop offset="70%" stop-color="#EC4899"/>
+                                        <stop offset="100%" stop-color="#FB923C"/>
+                                    </linearGradient>
+                                    <linearGradient id="panelTopLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#1E3A8A"/>
+                                        <stop offset="60%" stop-color="#38BDF8"/>
+                                        <stop offset="100%" stop-color="#FDE68A"/>
+                                    </linearGradient>
+                                    <linearGradient id="panelTopMid" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="#C084FC"/>
+                                        <stop offset="60%" stop-color="#F472B6"/>
+                                        <stop offset="100%" stop-color="#FDBA74"/>
+                                    </linearGradient>
+                                    <linearGradient id="panelTopRight" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#4C1D95"/>
+                                        <stop offset="55%" stop-color="#DB2777"/>
+                                        <stop offset="100%" stop-color="#9333EA"/>
+                                    </linearGradient>
+                                    <linearGradient id="panelMidLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#14B8A6"/>
+                                        <stop offset="60%" stop-color="#5EEAD4"/>
+                                        <stop offset="100%" stop-color="#FDE047"/>
+                                    </linearGradient>
+                                    <linearGradient id="panelMidRight" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#9A3412"/>
+                                        <stop offset="60%" stop-color="#B45309"/>
+                                        <stop offset="100%" stop-color="#78350F"/>
+                                    </linearGradient>
+                                    <linearGradient id="panelBotLeft" x1="0%" y1="100%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#F59E0B"/>
+                                        <stop offset="55%" stop-color="#0D9488"/>
+                                        <stop offset="100%" stop-color="#A855F7"/>
+                                    </linearGradient>
+                                    <linearGradient id="panelBotRight" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#0284C7"/>
+                                        <stop offset="60%" stop-color="#38BDF8"/>
+                                        <stop offset="100%" stop-color="#F43F5E"/>
+                                    </linearGradient>
+                                    <filter id="logoShadow" x="-15%" y="-15%" width="130%" height="130%">
+                                        <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000000" flood-opacity="0.9"/>
+                                    </filter>
+                                </defs>
+
+                                <!-- Black Collage Frame Base -->
+                                <rect width="360" height="190" fill="#090510"/>
+
+                                <!-- Top Left Panel: Seaplane / Helicopter over Miami -->
+                                <rect x="4" y="4" width="102" height="54" rx="2" fill="url(#panelTopLeft)"/>
+                                <rect x="10" y="34" width="10" height="20" fill="#1E293B" opacity="0.4"/>
+                                <rect x="24" y="28" width="12" height="26" fill="#1E293B" opacity="0.4"/>
+                                <path d="M24 26 L74 18 L66 34 L28 36 Z" fill="#0F172A" opacity="0.85"/>
+                                <line x1="14" y1="16" x2="88" y2="12" stroke="#E0F2FE" stroke-width="2" opacity="0.9"/>
+                                <line x1="26" y1="42" x2="72" y2="38" stroke="#CBD5E1" stroke-width="2.5"/>
+
+                                <!-- Top Center Panel: Lucia & Jason Vice Sunset -->
+                                <rect x="110" y="4" width="140" height="54" rx="2" fill="url(#panelTopMid)"/>
+                                <circle cx="156" cy="34" r="14" fill="#3B0764" opacity="0.85"/>
+                                <circle cx="198" cy="28" r="15" fill="#1E1B4B" opacity="0.9"/>
+                                <path d="M180 58 Q198 42 216 58 Z" fill="#F8FAFC" opacity="0.85"/>
+
+                                <!-- Top Right Panel: Pink Superbike Wheelie & Police Cruiser -->
+                                <rect x="254" y="4" width="102" height="54" rx="2" fill="url(#panelTopRight)"/>
+                                <rect x="262" y="42" width="54" height="12" rx="3" fill="#E2E8F0" opacity="0.8"/>
+                                <rect x="282" y="39" width="12" height="3" fill="#38BDF8"/>
+                                <circle cx="288" cy="40" r="9" fill="none" stroke="#EC4899" stroke-width="3"/>
+                                <circle cx="328" cy="22" r="9" fill="none" stroke="#EC4899" stroke-width="3"/>
+                                <path d="M288 40 L314 20 L328 22" stroke="#FDF2F8" stroke-width="3.5" fill="none"/>
+
+                                <!-- Middle Left Panel: Vice Beach Girl -->
+                                <rect x="4" y="62" width="102" height="66" rx="2" fill="url(#panelMidLeft)"/>
+                                <path d="M4 106 Q55 92 106 108 L106 128 L4 128 Z" fill="#FDE68A" opacity="0.85"/>
+                                <circle cx="54" cy="84" r="16" fill="#431407" opacity="0.85"/>
+                                <path d="M36 96 Q54 88 72 98 L68 112 L40 112 Z" fill="#0D9488"/>
+
+                                <!-- Middle Center Panel: Everglades Alligator -->
+                                <rect x="110" y="62" width="140" height="66" rx="2" fill="#1E293B"/>
+                                <path d="M135 110 Q180 95 225 112" stroke="#4ADE80" stroke-width="3" fill="none" opacity="0.65"/>
+                                <ellipse cx="180" cy="116" rx="36" ry="8" fill="#14532D"/>
+
+                                <!-- Middle Right Panel: Vice Mogul Gold Chains & Sunglasses -->
+                                <rect x="254" y="62" width="102" height="66" rx="2" fill="url(#panelMidRight)"/>
+                                <circle cx="305" cy="88" r="19" fill="#1C1917"/>
+                                <rect x="290" y="82" width="13" height="7" rx="1" fill="#000000" stroke="#FACC15" stroke-width="1"/>
+                                <rect x="307" y="82" width="13" height="7" rx="1" fill="#000000" stroke="#FACC15" stroke-width="1"/>
+                                <path d="M286 112 Q305 126 324 112" stroke="#FACC15" stroke-width="4" fill="none"/>
+
+                                <!-- Bottom Left Panel: Yellow Supercar Scissor Door -->
+                                <rect x="4" y="132" width="102" height="54" rx="2" fill="url(#panelBotLeft)"/>
+                                <polygon points="14,176 42,158 94,162 98,178" fill="#FACC15"/>
+                                <polygon points="46,158 66,135 76,139 58,159" fill="#FDE047"/>
+                                <circle cx="30" cy="176" r="7" fill="#0F172A"/>
+                                <circle cx="82" cy="176" r="7" fill="#0F172A"/>
+
+                                <!-- Bottom Center Panel: Action Tactical Scene -->
+                                <rect x="110" y="132" width="140" height="54" rx="2" fill="#581C87"/>
+                                <circle cx="165" cy="158" r="14" fill="#1E1B4B"/>
+                                <line x1="145" y1="182" x2="220" y2="144" stroke="#E2E8F0" stroke-width="4.5"/>
+
+                                <!-- Bottom Right Panel: Speedboat & Pink Flamingo -->
+                                <rect x="254" y="132" width="102" height="54" rx="2" fill="url(#panelBotRight)"/>
+                                <polygon points="274,142 350,158 340,168 266,150" fill="#FFFFFF"/>
+                                <polygon points="280,145 344,159 338,164 274,149" fill="#1D4ED8"/>
+                                <path d="M280 175 Q298 162 320 176 Q304 182 280 175 Z" fill="#FB7185"/>
+
+                                <!-- Centered & Well-Proportioned Official GTA VI Emblem -->
+                                <g transform="translate(180, 95)">
+                                    <!-- Iconic "VI" Roman Numeral -->
+                                    <g filter="url(#logoShadow)">
+                                        <!-- V -->
+                                        <path d="M-54 -48 L-28 -48 L-6 26 L16 -48 L42 -48 L6 52 L-18 52 Z" 
+                                              fill="url(#viBoxGrad)" stroke="#FFFFFF" stroke-width="2.8" stroke-linejoin="round"/>
+                                        <!-- I -->
+                                        <path d="M46 -48 L70 -48 L70 52 L46 52 Z" 
+                                              fill="url(#viBoxGrad)" stroke="#FFFFFF" stroke-width="2.8" stroke-linejoin="round"/>
+                                    </g>
+
+                                    <!-- Stacked Lowercase "grand theft auto" Centered Over VI -->
+                                    <g filter="url(#logoShadow)" font-family="'Arial Black', Impact, sans-serif" font-weight="900" text-anchor="middle" letter-spacing="-1.2">
+                                        <text x="6" y="-12" font-size="25" fill="#FFFFFF" stroke="#000000" stroke-width="4.5" paint-order="stroke">grand</text>
+                                        <text x="6" y="11" font-size="25" fill="#FFFFFF" stroke="#000000" stroke-width="4.5" paint-order="stroke">theft</text>
+                                        <text x="6" y="34" font-size="25" fill="#FFFFFF" stroke="#000000" stroke-width="4.5" paint-order="stroke">auto</text>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-tiktok-cyan transition">Grand Theft Auto VI</h3>
+                        <p class="text-xs text-gray-400 mt-1">Full Game Digital Voucher + Vice City VIP Starter Pack & Bonus Cash.</p>
+                    </div>
+                    <div class="mt-5 pt-4 border-t border-tiktok-border flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-gray-400 block">Retail Value</span>
+                            <span class="text-base font-extrabold text-white">$79.99 <span class="text-xs font-normal text-tiktok-cyan">FREE</span></span>
+                        </div>
+                        <button type="button" id="btn-gta6" class="px-4 py-2 rounded-xl text-xs font-bold bg-tiktok-border text-white group-hover:bg-white group-hover:text-black transition">
+                            Select
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Option 2: Realistic PlayStation 5 Console + DualSense Controller Card -->
+                <div onclick="selectGift('ps5')" id="card-ps5" class="gift-card cursor-pointer bg-tiktok-card border-2 border-tiktok-border hover:border-gray-500 rounded-2xl p-5 flex flex-col justify-between transition-all duration-200 relative overflow-hidden group">
+                    <div class="absolute top-3 right-3 z-20 bg-blue-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md">
+                        Hardware Grant
+                    </div>
+                    <div>
+                        <!-- Sleek PS5 Console & DualSense Controller Vector Graphic -->
+                        <div class="h-40 rounded-xl bg-gradient-to-br from-[#060B19] via-[#0D1B3E] to-[#060B19] mb-4 flex items-center justify-center p-3 relative overflow-hidden border border-blue-500/30">
+                            <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(56,189,248,0.28),transparent_70%)]"></div>
+                            <svg class="w-full h-full" viewBox="0 0 320 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="ps5Shell" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#FFFFFF"/>
+                                        <stop offset="60%" stop-color="#E2E8F0"/>
+                                        <stop offset="100%" stop-color="#94A3B8"/>
+                                    </linearGradient>
+                                    <filter id="blueLedGlow" x="-30%" y="-30%" width="160%" height="160%">
+                                        <feGaussianBlur stdDeviation="2.5" result="blur"/>
+                                        <feMerge>
+                                            <feMergeNode in="blur"/>
+                                            <feMergeNode in="SourceGraphic"/>
+                                        </feMerge>
+                                    </filter>
+                                </defs>
+
+                                <!-- Official-style PS5 Branding Top Left -->
+                                <text x="16" y="26" fill="#FFFFFF" font-family="Inter, sans-serif" font-weight="900" font-size="14" letter-spacing="1.5" opacity="0.9">PS5</text>
+                                <text x="16" y="38" fill="#60A5FA" font-family="Inter, sans-serif" font-weight="600" font-size="7.5" letter-spacing="1">DISC EDITION • 1TB</text>
+
+                                <!-- PS5 Console Standing Upright -->
+                                <g transform="translate(88, 10)">
+                                    <!-- Base Stand -->
+                                    <ellipse cx="44" cy="134" rx="30" ry="5" fill="#1E293B" stroke="#475569" stroke-width="1"/>
+                                    <!-- Inner Black Core -->
+                                    <path d="M31 12 L57 12 L54 132 L34 132 Z" fill="#090D16"/>
+                                    <!-- Iconic Blue LED Light Strips -->
+                                    <g filter="url(#blueLedGlow)">
+                                        <path d="M30 14 Q32 60 33 115" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round"/>
+                                        <path d="M58 14 Q56 60 55 115" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round"/>
+                                    </g>
+                                    <!-- Left Sculpted White Fin -->
+                                    <path d="M18 6 C14 48, 18 95, 25 132 L35 132 C31 95, 29 48, 31 8 Z" fill="url(#ps5Shell)"/>
+                                    <!-- Right Sculpted White Fin (Disc Drive Curve) -->
+                                    <path d="M57 8 C59 48, 57 95, 53 132 L64 132 C72 98, 73 50, 68 6 Z" fill="url(#ps5Shell)"/>
+                                </g>
+
+                                <!-- DualSense Wireless Controller (Foreground Right) -->
+                                <g transform="translate(178, 72)">
+                                    <!-- Controller Shadow -->
+                                    <ellipse cx="48" cy="64" rx="40" ry="6" fill="#020617" opacity="0.75"/>
+                                    <!-- Black Center Touchpad & Grips Base -->
+                                    <path d="M22 20 L74 20 L84 54 C86 60 78 64 73 58 L62 42 L34 42 L23 58 C18 64 10 60 12 54 Z" fill="#0F172A"/>
+                                    <!-- White Outer Ergonomic Wings -->
+                                    <path d="M24 16 C14 18 8 36 8 52 C8 60 16 62 20 55 L30 38 L26 20 Z" fill="url(#ps5Shell)"/>
+                                    <path d="M72 16 C82 18 88 36 88 52 C88 60 80 62 76 55 L66 38 L70 20 Z" fill="url(#ps5Shell)"/>
+                                    <!-- Touchpad with Blue LED Accent -->
+                                    <polygon points="33,17 63,17 60,31 36,31" fill="#F8FAFC"/>
+                                    <polyline points="33,17 36,31 60,31 63,17" fill="none" stroke="#38BDF8" stroke-width="1.5" filter="url(#blueLedGlow)"/>
+                                    <!-- Analog Sticks -->
+                                    <circle cx="36" cy="38" r="5" fill="#1E293B" stroke="#475569" stroke-width="1.2"/>
+                                    <circle cx="60" cy="38" r="5" fill="#1E293B" stroke="#475569" stroke-width="1.2"/>
+                                    <!-- D-Pad & Face Buttons -->
+                                    <circle cx="22" cy="27" r="1.5" fill="#64748B"/>
+                                    <circle cx="74" cy="24" r="1.5" fill="#38BDF8"/>
+                                    <circle cx="78" cy="28" r="1.5" fill="#F43F5E"/>
+                                    <circle cx="70" cy="28" r="1.5" fill="#EC4899"/>
+                                    <circle cx="74" cy="32" r="1.5" fill="#10B981"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-tiktok-cyan transition">PlayStation® 5 Console</h3>
+                        <p class="text-xs text-gray-400 mt-1">PS5 Disc Edition (1TB SSD) + DualSense Wireless Controller shipped worldwide.</p>
+                    </div>
+                    <div class="mt-5 pt-4 border-t border-tiktok-border flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-gray-400 block">Retail Value</span>
+                            <span class="text-base font-extrabold text-white">$499.99 <span class="text-xs font-normal text-tiktok-cyan">FREE</span></span>
+                        </div>
+                        <button type="button" id="btn-ps5" class="px-4 py-2 rounded-xl text-xs font-bold bg-tiktok-border text-white group-hover:bg-white group-hover:text-black transition">
+                            Select
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Option 3: Ultimate Bundle (PS5 Console + GTA VI) -->
+                <div onclick="selectGift('bundle')" id="card-bundle" class="gift-card selected cursor-pointer bg-tiktok-card border-2 border-tiktok-border hover:border-gray-500 rounded-2xl p-5 flex flex-col justify-between transition-all duration-200 relative overflow-hidden group">
+                    <div class="absolute top-3 right-3 z-20 bg-gradient-to-r from-tiktok-cyan to-tiktok-pink text-black text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md">
+                        🔥 Ultimate Bundle
+                    </div>
+                    <div>
+                        <!-- Combined PS5 + Vice City GTA VI Visual -->
+                        <div class="h-40 rounded-xl bg-gradient-to-tr from-[#090414] via-[#1B0B2E] to-[#2A0826] mb-4 flex flex-col items-center justify-center p-4 relative overflow-hidden border border-tiktok-cyan/40">
+                            <div class="absolute -left-6 -bottom-6 w-28 h-28 bg-blue-500/20 rounded-full blur-xl"></div>
+                            <div class="absolute -right-6 -top-6 w-28 h-28 bg-pink-500/25 rounded-full blur-xl"></div>
+                            
+                            <div class="flex items-center justify-center gap-4 z-10">
+                                <!-- Mini PS5 Icon -->
+                                <div class="flex flex-col items-center bg-blue-950/60 border border-blue-400/30 px-3.5 py-2 rounded-xl">
+                                    <span class="text-2xl font-black tracking-tight text-white">PS5</span>
+                                    <span class="text-[9px] text-blue-300 font-semibold uppercase">Console + Pad</span>
+                                </div>
+                                <span class="text-2xl font-black text-tiktok-cyan">+</span>
+                                <!-- Mini Vice City VI Emblem -->
+                                <div class="flex flex-col items-center bg-gradient-to-b from-pink-600/30 to-orange-500/30 border border-pink-400/40 px-3.5 py-2 rounded-xl">
+                                    <span class="text-2xl font-black italic text-transparent bg-clip-text bg-gradient-to-b from-amber-200 via-pink-300 to-purple-300">GTA VI</span>
+                                    <span class="text-[9px] text-pink-200 font-semibold uppercase">Vice City Ed.</span>
+                                </div>
+                            </div>
+                            <span class="mt-3.5 text-[10px] font-bold tracking-wider uppercase text-amber-300 bg-amber-500/10 border border-amber-400/30 px-3 py-1 rounded-full z-10">
+                                ✨ Complete Creator Collector Box
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-tiktok-cyan transition">Ultimate Bundle: PS5 + GTA VI</h3>
+                        <p class="text-xs text-gray-400 mt-1">Includes both the PlayStation 5 Console & GTA VI Collector's Edition Voucher!</p>
+                    </div>
+                    <div class="mt-5 pt-4 border-t border-tiktok-border flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-gray-400 block">Retail Value</span>
+                            <span class="text-base font-extrabold text-white">$579.98 <span class="text-xs font-normal text-tiktok-cyan">FREE</span></span>
+                        </div>
+                        <button type="button" id="btn-bundle" class="px-4 py-2 rounded-xl text-xs font-bold bg-tiktok-cyan text-black transition">
+                            Selected ✓
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Step 3: Custom Note & Send Button -->
+        <section class="bg-tiktok-dark border border-tiktok-border rounded-2xl p-5 sm:p-7 shadow-xl">
+            <h2 class="text-lg font-bold flex items-center gap-2 mb-4">
+                <span class="bg-tiktok-pink text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-xs font-extrabold">3</span>
+                Customize Gift Message & Dispatch
+            </h2>
+
+            <div class="space-y-4">
+                <div>
+                    <label for="gift-message" class="block text-xs font-medium text-gray-400 mb-1.5">Personal Gift Note for Creator (Optional)</label>
+                    <input type="text" id="gift-message" value="Enjoy your brand new PlayStation 5 & GTA VI! Huge fan of your TikTok content! 🔥🎮" 
+                           class="w-full bg-tiktok-card border border-tiktok-border focus:border-tiktok-pink rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition">
+                </div>
+
+                <button type="button" onclick="initiateGiftSend()" class="w-full tiktok-btn-gradient text-white font-extrabold text-base sm:text-lg py-4 rounded-xl flex items-center justify-center gap-3 shadow-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
+                    <span>Send Gift Now</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Recent Gifts Sent History Feed -->
+        <section class="bg-tiktok-dark border border-tiktok-border rounded-2xl p-5 sm:p-7">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-base font-bold text-gray-200 flex items-center gap-2">
+                    <span>📜</span> Recent Gifts Sent
+                </h3>
+                <span id="history-count" class="text-xs bg-tiktok-card px-2.5 py-1 rounded-full text-gray-400">0 Dispatched</span>
+            </div>
+            <div id="history-list" class="space-y-3">
+                <p id="empty-history-msg" class="text-sm text-gray-500 text-center py-6">No gifts dispatched yet. Search a TikTok @username above and send your first reward!</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-tiktok-border py-5 text-center text-xs text-gray-500">
+        <p>TikTok Creator Gift & Reward Portal • Interactive Rewards Simulator</p>
+    </footer>
+
+    <!-- Processing Overlay Modal -->
+    <div id="processing-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="bg-tiktok-card border border-tiktok-border rounded-3xl max-w-md w-full p-8 text-center space-y-6 animate-glow">
+            <!-- Animated Dual Orbit Spinner -->
+            <div class="relative w-20 h-20 mx-auto">
+                <div class="absolute inset-0 rounded-full border-4 border-t-tiktok-cyan border-r-transparent border-b-tiktok-pink border-l-transparent animate-spin"></div>
+                <div class="absolute inset-2 rounded-full border-4 border-t-transparent border-r-white border-b-transparent border-l-white animate-spin" style="animation-direction: reverse; animation-duration: 1s;"></div>
+                <div class="absolute inset-0 flex items-center justify-center text-2xl">🎁</div>
+            </div>
+            
+            <div>
+                <h3 id="process-title" class="text-xl font-extrabold text-white">Connecting to TikTok Creator Rewards...</h3>
+                <p id="process-subtitle" class="text-sm text-gray-400 mt-1">Initializing encrypted reward transfer</p>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-black rounded-full h-2.5 overflow-hidden border border-tiktok-border">
+                <div id="process-bar" class="bg-gradient-to-r from-tiktok-cyan to-tiktok-pink h-full rounded-full transition-all duration-300" style="width: 10%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Official Transaction Receipt Modal -->
+    <div id="receipt-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-tiktok-dark border-2 border-tiktok-cyan/50 rounded-3xl max-w-md w-full overflow-hidden shadow-2xl my-auto">
+            <!-- Receipt Top Banner -->
+            <div class="bg-gradient-to-r from-tiktok-cyan/20 via-tiktok-card to-tiktok-pink/20 p-6 text-center border-b border-tiktok-border relative">
+                <div class="w-14 h-14 bg-emerald-500/20 border border-emerald-400 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-3 text-2xl shadow-lg">
+                    ✓
+                </div>
+                <h3 class="text-2xl font-black text-white tracking-tight">Transaction Receipt</h3>
+                <p class="text-xs text-tiktok-cyan font-medium mt-1">Official TikTok Creator Reward Confirmation</p>
+            </div>
+
+            <!-- Receipt Details Body -->
+            <div class="p-6 space-y-5">
+                <!-- Recipient Box -->
+                <div class="flex items-center gap-3.5 bg-tiktok-card p-3.5 rounded-2xl border border-tiktok-border">
+                    <img id="receipt-avatar" src="" alt="Recipient" class="w-12 h-12 rounded-full object-cover border border-tiktok-pink">
+                    <div class="overflow-hidden">
+                        <p class="text-[11px] text-gray-400 uppercase font-bold tracking-wider">Recipient Creator</p>
+                        <p id="receipt-name" class="text-base font-bold text-white truncate">Display Name</p>
+                        <p id="receipt-handle" class="text-xs text-tiktok-cyan truncate">@username</p>
+                    </div>
+                </div>
+
+                <!-- Item Details -->
+                <div class="bg-tiktok-card p-4 rounded-2xl border border-tiktok-border space-y-2.5 text-sm">
+                    <div class="flex justify-between gap-2">
+                        <span class="text-gray-400 shrink-0">Reward Item:</span>
+                        <span id="receipt-item" class="font-bold text-white text-right">PS5 Console + GTA VI Bundle</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Redemption Status:</span>
+                        <span class="font-bold text-emerald-400">Delivered ✓</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Transaction ID:</span>
+                        <span id="receipt-txid" class="font-mono text-xs text-gray-300">#TT-98237492</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Timestamp:</span>
+                        <span id="receipt-time" class="text-xs text-gray-300">Just now</span>
+                    </div>
+                </div>
+
+                <!-- Custom Note Quote -->
+                <div class="bg-black/40 border-l-2 border-tiktok-pink p-3 rounded-r-xl">
+                    <p class="text-[11px] text-gray-400 mb-0.5">Attached Gift Message:</p>
+                    <p id="receipt-note" class="text-xs text-gray-200 italic">"Enjoy your gift!"</p>
+                </div>
+
+                <!-- Modal Actions -->
+                <div class="grid grid-cols-2 gap-3 pt-2">
+                    <button type="button" onclick="copyReceiptDetails()" class="bg-tiktok-card hover:bg-tiktok-border border border-tiktok-border text-white font-semibold py-3 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 transition">
+                        <span>📋</span> Copy Receipt
+                    </button>
+                    <button type="button" onclick="closeReceiptModal()" class="tiktok-btn-gradient text-white font-bold py-3 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2">
+                        <span>🎁</span> Send Another
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        // State Management
+        let currentUser = null;
+        let selectedGiftKey = 'bundle'; // Default selected
+        let transferHistory = [];
+
+        const giftsCatalog = {
+            gta6: {
+                name: 'Grand Theft Auto VI (Vice City Digital Edition)',
+                shortName: 'GTA VI',
+                badge: '🎮 Game Voucher',
+                color: 'text-pink-400'
+            },
+            ps5: {
+                name: 'PlayStation® 5 Console + DualSense Controller',
+                shortName: 'PlayStation 5',
+                badge: '🕹️ Hardware Console',
+                color: 'text-blue-400'
+            },
+            bundle: {
+                name: 'Ultimate Bundle: PlayStation® 5 + GTA VI Collector\'s Ed.',
+                shortName: 'PS5 + GTA VI Bundle',
+                badge: '🔥 Ultimate Bundle',
+                color: 'text-tiktok-cyan'
+            }
+        };
+
+        // Pre-populated popular creator profiles (Fallback stats if live endpoint is rate-limited)
+        const knownProfiles = {
+            'khaby.lame': {
+                displayName: 'Khabane lame',
+                followers: '162.8M',
+                likes: '2.5B',
+                verified: true
+            },
+            'charlidamelio': {
+                displayName: 'charli d’amelio',
+                followers: '155.7M',
+                likes: '11.8B',
+                verified: true
+            },
+            'mrbeast': {
+                displayName: 'MrBeast',
+                followers: '105.4M',
+                likes: '1.1B',
+                verified: true
+            },
+            'zachking': {
+                displayName: 'Zach King',
+                followers: '82.1M',
+                likes: '1.2B',
+                verified: true
+            },
+            'bellapoarch': {
+                displayName: 'Bella Poarch',
+                followers: '94.3M',
+                likes: '2.3B',
+                verified: true
+            }
+        };
+
+        // Format large numbers cleanly (e.g. 162800000 -> 162.8M)
+        function formatCompactNumber(num) {
+            if (!num && num !== 0) return null;
+            const n = Number(num);
+            if (isNaN(n)) return String(num);
+            if (n >= 1e9) return (n / 1e9).toFixed(1).replace(/\.0$/, '') + 'B';
+            if (n >= 1e6) return (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+            if (n >= 1e3) return (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K';
+            return n.toLocaleString();
+        }
+
+        // Helper: Show Non-Blocking Toast Message
+        function showToast(message, icon = '⚠️') {
+            const toast = document.getElementById('toast-box');
+            document.getElementById('toast-message').textContent = message;
+            document.getElementById('toast-icon').textContent = icon;
+            
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3500);
+        }
+
+        // Allow user to load their exact local cover image into the GTA VI card
+        function handleCustomGtaCover(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const customImg = document.getElementById('gta6-custom-img');
+                const defaultArt = document.getElementById('gta6-default-art');
+                customImg.src = e.target.result;
+                customImg.classList.remove('hidden');
+                defaultArt.classList.add('hidden');
+                selectGift('gta6');
+                showToast('GTA VI cover artwork updated!', '🖼️');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Quick Fill Helper
+        function quickFillUser(handle) {
+            document.getElementById('username-input').value = handle;
+            handleSearchUser(handle);
+        }
+
+        // Handle Form Submission
+        document.getElementById('search-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const rawInput = document.getElementById('username-input').value.trim();
+            handleSearchUser(rawInput);
+        });
+
+        // Search & Fetch Real TikTok Profile DP, Name, Followers & Likes
+        async function handleSearchUser(rawInput) {
+            if (!rawInput) {
+                showToast('Please enter a TikTok @username first!', '🔍');
+                return;
+            }
+
+            // Clean username (remove leading @ if typed)
+            const cleanHandle = rawInput.replace(/^@+/, '').toLowerCase();
+            if (!cleanHandle) return;
+
+            const searchBtn = document.querySelector('#search-form button[type="submit"]');
+            const originalBtnHtml = searchBtn.innerHTML;
+            searchBtn.disabled = true;
+            searchBtn.innerHTML = `<svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg><span>Fetching...</span>`;
+
+            const fallbackAvatar = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(cleanHandle)}&backgroundColor=25f4ee,fe2c55,c0aede`;
+            // Real-time TikTok avatar resolver via unavatar.io
+            const liveAvatarUrl = `https://unavatar.io/tiktok/${encodeURIComponent(cleanHandle)}?fallback=${encodeURIComponent(fallbackAvatar)}`;
+
+            let displayName = knownProfiles[cleanHandle]?.displayName || cleanHandle
+                .split(/[._]/)
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+            let followers = knownProfiles[cleanHandle]?.followers || null;
+            let likes = knownProfiles[cleanHandle]?.likes || null;
+            let isVerified = knownProfiles[cleanHandle]?.verified ?? false;
+            let fetchedLive = false;
+
+            try {
+                // Fetch public TikTok profile page metadata via CORS proxy to extract real name, followers & likes
+                const targetUrl = `https://www.tiktok.com/@${encodeURIComponent(cleanHandle)}`;
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5500);
+
+                const response = await fetch(proxyUrl, { signal: controller.signal });
+                clearTimeout(timeoutId);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const html = data.contents || '';
+
+                    // Parse embedded TikTok Universal Data JSON if present
+                    const jsonMatch = html.match(/<script id="__UNIVERSAL_DATA_FOR_REHYDRATION__"[^>]*>([\s\S]*?)<\/script>/);
+                    if (jsonMatch && jsonMatch[1]) {
+                        const parsed = JSON.parse(jsonMatch[1]);
+                        const userDetail = parsed?.__DEFAULT_SCOPE__?.['webapp.user-detail']?.userInfo;
+                        if (userDetail?.user) {
+                            displayName = userDetail.user.nickname || displayName;
+                            isVerified = Boolean(userDetail.user.verified);
+                            if (userDetail.stats) {
+                                followers = formatCompactNumber(userDetail.stats.followerCount) || followers;
+                                likes = formatCompactNumber(userDetail.stats.heartCount ?? userDetail.stats.heart) || likes;
+                            }
+                            fetchedLive = true;
+                        }
+                    }
+
+                    // Secondary meta description parser (e.g. "162.8M Followers, 2.5B Likes")
+                    if (!fetchedLive) {
+                        const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
+                        if (titleMatch && titleMatch[1]) {
+                            const cleanTitle = titleMatch[1].split('(@')[0].trim();
+                            if (cleanTitle && !cleanTitle.toLowerCase().includes('tiktok')) {
+                                displayName = cleanTitle;
+                            }
+                        }
+                        const descMatch = html.match(/content="([^"]*Followers[^"]*Likes[^"]*)"/i);
+                        if (descMatch && descMatch[1]) {
+                            const fMatch = descMatch[1].match(/([\d.,]+[KMB]?)\s*Followers/i);
+                            const lMatch = descMatch[1].match(/([\d.,]+[KMB]?)\s*Likes/i);
+                            if (fMatch) followers = fMatch[1];
+                            if (lMatch) likes = lMatch[1];
+                            if (fMatch || lMatch) fetchedLive = true;
+                        }
+                    }
+                }
+            } catch (err) {
+                // Gracefully fall back if network/proxy times out
+            } finally {
+                searchBtn.disabled = false;
+                searchBtn.innerHTML = originalBtnHtml;
+            }
+
+            // Deterministic fallback stats if account is private or stats couldn't be scraped
+            if (!followers || !likes) {
+                const seedNum = cleanHandle.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+                followers = followers || ((seedNum % 90) + 1.4).toFixed(1) + 'K';
+                likes = likes || ((seedNum % 500) + 18.2).toFixed(1) + 'K';
+            }
+
+            currentUser = {
+                handle: '@' + cleanHandle,
+                displayName: displayName,
+                followers: followers,
+                likes: likes,
+                avatar: liveAvatarUrl,
+                fallbackAvatar: fallbackAvatar
+            };
+
+            // Update DOM with error fallback for avatar
+            const avatarEl = document.getElementById('profile-avatar');
+            avatarEl.onerror = function() {
+                this.onerror = null;
+                this.src = fallbackAvatar;
+            };
+            avatarEl.src = currentUser.avatar;
+
+            document.getElementById('profile-display-name').textContent = currentUser.displayName;
+            document.getElementById('profile-handle').textContent = currentUser.handle;
+            document.getElementById('profile-followers').textContent = currentUser.followers;
+            document.getElementById('profile-likes').textContent = currentUser.likes;
+
+            // Sync Verified Badge checkbox
+            const verifiedCheckbox = document.getElementById('toggle-verified');
+            verifiedCheckbox.checked = isVerified;
+            toggleVerifiedBadge();
+
+            const card = document.getElementById('user-profile-card');
+            card.classList.remove('hidden');
+            showToast(
+                fetchedLive
+                    ? `Live profile loaded for ${currentUser.handle}!`
+                    : `Profile loaded for ${currentUser.handle}! Select your reward below.`,
+                '✅'
+            );
+        }
+
+        // Toggle Verified Badge
+        function toggleVerifiedBadge() {
+            const isChecked = document.getElementById('toggle-verified').checked;
+            const badge = document.getElementById('verified-badge');
+            if (isChecked) {
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        // Gift Selection Logic
+        function selectGift(giftKey) {
+            selectedGiftKey = giftKey;
+            const keys = ['gta6', 'ps5', 'bundle'];
+            
+            keys.forEach(key => {
+                const card = document.getElementById(`card-${key}`);
+                const btn = document.getElementById(`btn-${key}`);
+                
+                if (key === giftKey) {
+                    card.classList.add('selected');
+                    btn.textContent = 'Selected ✓';
+                    btn.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-tiktok-cyan text-black transition';
+                } else {
+                    card.classList.remove('selected');
+                    btn.textContent = 'Select';
+                    btn.className = 'px-4 py-2 rounded-xl text-xs font-bold bg-tiktok-border text-white group-hover:bg-white group-hover:text-black transition';
+                }
+            });
+        }
+
+        // Send Gift Flow with Animated Steps
+        function initiateGiftSend() {
+            if (!currentUser) {
+                const inputVal = document.getElementById('username-input').value.trim();
+                if (inputVal) {
+                    handleSearchUser(inputVal);
+                } else {
+                    showToast('Please search for a TikTok @username before sending a gift!', '⚠️');
+                    document.getElementById('username-input').focus();
+                    return;
+                }
+            }
+
+            const modal = document.getElementById('processing-modal');
+            const title = document.getElementById('process-title');
+            const subtitle = document.getElementById('process-subtitle');
+            const bar = document.getElementById('process-bar');
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            // Step 1
+            title.textContent = 'Connecting to TikTok Creator Rewards...';
+            subtitle.textContent = 'Establishing secure VIP dispatch channel';
+            bar.style.width = '25%';
+
+            setTimeout(() => {
+                // Step 2
+                title.textContent = `Verifying ${currentUser.handle}...`;
+                subtitle.textContent = 'Confirming creator account & reward eligibility';
+                bar.style.width = '60%';
+            }, 800);
+
+            setTimeout(() => {
+                // Step 3
+                const giftName = giftsCatalog[selectedGiftKey].shortName;
+                title.textContent = 'Dispatching Digital Code & Hardware Voucher...';
+                subtitle.textContent = `Assigning ${giftName} to ${currentUser.handle}`;
+                bar.style.width = '95%';
+            }, 1600);
+
+            setTimeout(() => {
+                // Complete
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                bar.style.width = '10%';
+                completeGiftTransfer();
+            }, 2400);
+        }
+
+        // Complete Transfer & Show Receipt
+        function completeGiftTransfer() {
+            const giftInfo = giftsCatalog[selectedGiftKey];
+            const customNote = document.getElementById('gift-message').value.trim() || 'Enjoy your brand new reward!';
+            const txId = '#TT-' + Math.floor(10000000 + Math.random() * 90000000);
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' • ' + now.toLocaleDateString();
+
+            // Populate Receipt Modal
+            document.getElementById('receipt-avatar').src = currentUser.avatar;
+            document.getElementById('receipt-name').textContent = currentUser.displayName;
+            document.getElementById('receipt-handle').textContent = currentUser.handle;
+            document.getElementById('receipt-item').textContent = giftInfo.name;
+            document.getElementById('receipt-txid').textContent = txId;
+            document.getElementById('receipt-time').textContent = timeString;
+            document.getElementById('receipt-note').textContent = `"${customNote}"`;
+
+            const receiptModal = document.getElementById('receipt-modal');
+            receiptModal.classList.remove('hidden');
+            receiptModal.classList.add('flex');
+
+            // Trigger Confetti Celebration
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#25F4EE', '#FE2C55', '#FFFFFF']
+                });
+            }
+
+            // Add to Session History
+            addToHistory({
+                user: currentUser,
+                gift: giftInfo,
+                txId: txId,
+                time: timeString
+            });
+        }
+
+        function closeReceiptModal() {
+            const receiptModal = document.getElementById('receipt-modal');
+            receiptModal.classList.add('hidden');
+            receiptModal.classList.remove('flex');
+        }
+
+        // Copy Receipt Text using execCommand fallback
+        function copyReceiptDetails() {
+            const handle = document.getElementById('receipt-handle').textContent;
+            const item = document.getElementById('receipt-item').textContent;
+            const txId = document.getElementById('receipt-txid').textContent;
+            const summary = `🎁 TikTok Creator Gift Receipt\nRecipient: ${handle}\nReward Sent: ${item}\nTransaction ID: ${txId}\nStatus: Delivered ✓`;
+
+            const tempInput = document.createElement('textarea');
+            tempInput.value = summary;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            showToast('Transaction receipt copied to clipboard!', '📋');
+        }
+
+        // Render History Log
+        function addToHistory(entry) {
+            transferHistory.unshift(entry);
+            const listContainer = document.getElementById('history-list');
+            const countBadge = document.getElementById('history-count');
+            
+            countBadge.textContent = `${transferHistory.length} Dispatched`;
+            listContainer.innerHTML = '';
+
+            transferHistory.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between bg-tiktok-card/70 border border-tiktok-border p-3.5 rounded-xl';
+                row.innerHTML = `
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <img src="${item.user.avatar}" alt="" class="w-10 h-10 rounded-full bg-black border border-tiktok-border shrink-0">
+                        <div class="overflow-hidden">
+                            <p class="text-sm font-bold text-white truncate">${item.user.handle} <span class="text-xs font-normal text-gray-400">received</span> <span class="${item.gift.color} font-semibold">${item.gift.shortName}</span></p>
+                            <p class="text-[11px] text-gray-500">${item.txId} • ${item.time}</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-lg shrink-0">Delivered ✓</span>
+                `;
+                listContainer.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>
